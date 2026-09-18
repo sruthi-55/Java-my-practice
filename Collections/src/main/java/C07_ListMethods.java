@@ -48,6 +48,8 @@ public class C07_ListMethods {
         System.out.println(label + ": " + values);	// supplied label and current list contents
     }
 
+    // changes through sublist effects the original
     // subList returns a backed view, so structural interference with the original list can invalidate the view
+
     // list.of creates an unmodifiable list while ArrayList creates a mutable resizable-array implementation
 }

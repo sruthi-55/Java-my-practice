@@ -14,19 +14,16 @@ public class C10_CollectionsUtilityMethods {
         System.out.println("min/max: " + Collections.min(numbers) + "/" + Collections.max(numbers));	// min/max: 10/40
 
         Collections.reverse(numbers);
-
         System.out.println("reverse: " + numbers);	// reverse: [40, 30, 20, 20, 10]
 
-        Collections.rotate(numbers, 2);
-
+        Collections.rotate(numbers, 2);     // moves x positions right. for left rotations, provide -ve val
         System.out.println("rotate: " + numbers);	// rotate: [20, 10, 40, 30, 20]
 
         Collections.swap(numbers, 0, numbers.size() - 1);
-
         System.out.println("swap: " + numbers);	// swap: [20, 10, 40, 30, 20]
 
-        Collections.fill(numbers, 7);
 
+        Collections.fill(numbers, 7);
         System.out.println("fill: " + numbers);	// fill: [7, 7, 7, 7, 7]
 
         List<Integer> source = List.of(1, 2, 3);
@@ -36,10 +33,11 @@ public class C10_CollectionsUtilityMethods {
         System.out.println("copy: " + destination);	// copy: [1, 2, 3, 0]
         System.out.println("disjoint: " + Collections.disjoint(source, List.of(8, 9)));	// disjoint: true
 
-        List<Integer> immutable = Collections.unmodifiableList(source);
-        List<Integer> synchronizedList = Collections.synchronizedList(new ArrayList<>(source));
-        List<Integer> singleton = Collections.singletonList(42);
-        List<Integer> copies = Collections.nCopies(3, 5);
+        List<Integer> immutable = Collections.unmodifiableList(source);         // read-only view
+        List<Integer> synchronizedList = Collections.synchronizedList(new ArrayList<>(source));     // creates a thread-safe wrapper around the list
+        List<Integer> singleton = Collections.singletonList(42);        // list containing exactly one ele
+        List<Integer> copies = Collections.nCopies(3, 5);       // immutable list of size 3 where every element is 5
+        List<StringBuilder> list = Collections.nCopies(3, new StringBuilder("Hi"));   // all 3 references point to same obj
 
         System.out.println(immutable + " " + synchronizedList + " " + singleton + " " + copies);	// [1, 2, 3] [1, 2, 3] [42] [5, 5, 5]
 

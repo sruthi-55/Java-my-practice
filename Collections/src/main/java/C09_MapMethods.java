@@ -29,6 +29,8 @@ public class C09_MapMethods {
         System.out.println("keys: " + scores.keySet());	// all five keys in unspecified order
         System.out.println("values: " + scores.values());	// all five values in key iteration order
         System.out.println("entries: " + scores.entrySet());	// all five entries in unspecified order
+        // all the above 3 return a view of the map
+        // so, any changes to them are reflected in the original map
 
         System.out.println("remove pair: " + scores.remove("Spring", 85));	// remove pair: true
         System.out.println("remove key: " + scores.remove("Maven"));	// remove key: 50

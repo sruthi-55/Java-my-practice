@@ -52,7 +52,7 @@ public class C04_Cursors {
         System.out.println(values);	// [A, B, D]
 
         System.out.println(iterator.hasPrevious());	// true
-        System.out.println(iterator.previous());	// D
+        System.out.println(iterator.previous());	// D        | A | B | D |(it)
         iterator.remove();
         System.out.println(values);	// [A, B]
     }
@@ -102,11 +102,17 @@ public class C04_Cursors {
         } catch (ConcurrentModificationException exception) {
             System.out.println(exception.getClass().getSimpleName());	// ConcurrentModificationException
         }
+        // ArrayList maintains a modification counter called modCount
+        // iterator remember the value of expectedModCount
+        // when list is updated once, modCount = 1 but expectedModCount = 0 (doesn't match with mod count)
+        // before returning ele, iterator checks if modCount and expectedModCount are equal
+        // if not equal throws exception as above
     }
 
     // next throws NoSuchElementException when no element remains
     // remove throws IllegalStateException before next or when called twice for the same element
     // remove throws UnsupportedOperationException when the iterator does not support modification
+
     // structural modification outside the iterator can cause ConcurrentModificationException on a fail-fast iterator
     // fail-fast collections track structural changes with modCount and iterators compare it with expectedModCount
     // ConcurrentModificationException is best-effort bug detection and must not be used for program correctness

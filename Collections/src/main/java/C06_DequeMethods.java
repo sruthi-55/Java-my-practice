@@ -39,7 +39,7 @@ public class C06_DequeMethods {
         System.out.println(deque.isEmpty());	// true
     }
 
-    // addFirst, addLast, removeFirst, removeLast, getFirst and getLast throw when the operation cannot complete
+    // addFirst, addLast, removeFirst, removeLast, getFirst and getLast throw error when the operation cannot complete
     // offerFirst and offerLast return false on insertion failure
     // pollFirst, pollLast, peekFirst and peekLast return null when the deque is empty
     // push, pop and peek provide stack behavior at the front of the deque

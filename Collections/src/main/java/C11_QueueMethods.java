@@ -13,13 +13,16 @@ import java.util.concurrent.BlockingQueue;
 public class C11_QueueMethods {
     public static void main(String[] args) throws InterruptedException {
         Queue<String> queue = new ArrayDeque<>();
-        System.out.println(queue.add("Java"));	// true
+        System.out.println(queue.add("Java"));	// true, exception if unable to add
         System.out.println(queue.offer("SQL"));	// true
         System.out.println(queue.offer("Spring"));	// true
-        System.out.println(queue.element());	// Java
+
+        System.out.println(queue.element());	// Java - returns top ele, exception when q is empty
         System.out.println(queue.peek());	// Java
-        System.out.println(queue.remove());	// Java
+
+        System.out.println(queue.remove());	// Java, exception if q empty
         System.out.println(queue.poll());	// SQL
+
         System.out.println(queue.size());	// 1
         System.out.println(queue.contains("Spring"));	// true
         System.out.println(queue.remove("Spring"));	// true
@@ -29,7 +32,7 @@ public class C11_QueueMethods {
         PriorityQueue<Integer> minHeap = new PriorityQueue<>();
         minHeap.addAll(java.util.List.of(30, 10, 20));
         System.out.println(minHeap.peek());	// 10
-        System.out.println(minHeap.comparator());	// null
+        System.out.println(minHeap.comparator());	// null, natural ordering
         System.out.println(minHeap.poll());	// 10
 
         PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Comparator.reverseOrder());
@@ -42,10 +45,16 @@ public class C11_QueueMethods {
         linkedQueue.offer("second");
         System.out.println(linkedQueue.poll());	// first
 
-        BlockingQueue<String> blockingQueue = new ArrayBlockingQueue<>(1);
-        blockingQueue.put("task");
+        BlockingQueue<String> blockingQueue = new ArrayBlockingQueue<>(1);  // q with max capacity - 1
+        blockingQueue.put("task");      // blocks if q is full
         System.out.println(blockingQueue.remainingCapacity());	// 0
-        System.out.println(blockingQueue.take());	// task
+        // blockingQueue.put("another task");
+        // instead of immediately throwing an exception or returning false,
+        // the thread waits until space becomes available.
+        System.out.println(blockingQueue.take());	// task. removes and returns ele
+        // waits if queue is empty
+
+        System.out.println(blockingQueue.remainingCapacity());   // 1
     }
 
     // add and remove throw on failure while offer and poll return false or null

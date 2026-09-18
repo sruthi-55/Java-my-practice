@@ -48,4 +48,17 @@ public class C08_SetMethods {
 
     // Set.add returns false for an equal duplicate because sets contain no duplicate elements
     // addAll, retainAll and removeAll implement union, intersection and difference when used with copied sets
+
+    // SortedSet interface
+    // first(), last() - higher, lower
+    // headSet(ele,true) - everything before the given boundary including ele
+    // tailSet(ele,true) - everything after the given boundary including ele
+    // subSet(from, true, to, false)
+
+    // NavigableSet interface
+    // lower(x) - greatest element strictly less than x
+    // higher(x) - smallest element strictly greater than x
+    // floor(x) - greatest element less than or equal to x
+    // ceiling(x) - smallest element greater than or equal to x
+    // descendingSet() - view of the set in reverse order
 }
