@@ -1,3 +1,8 @@
+// class is a user-defined type that defines the state and behavior of its objects
+// object is a class instance with state, behavior and identity
+// constructor initializes a new object and has no return type
+// this refers to the current object and this(...) invokes another constructor
+
 public class O01_Introduction {
     public static void main(String[] args) {
         int[] rollNums = new int[5];
@@ -11,9 +16,9 @@ public class O01_Introduction {
 
         Student random = new Student(student1);
 
-        System.out.println("Student 1: "+student1.rno+","+student1.name+","+student1.marks);
-        System.out.println("Student 2: "+student2.rno+","+student2.name+","+student2.marks);
-        System.out.println("Random student: "+random.rno+","+random.name+","+random.marks);
+        System.out.println("Student 1: "+student1.rno+","+student1.name+","+student1.marks);	// Student 1: 1,Sruthi Mora,99.0
+        System.out.println("Student 2: "+student2.rno+","+student2.name+","+student2.marks);	// Student 2: 0,Default student,55.0
+        System.out.println("Random student: "+random.rno+","+random.name+","+random.marks);	// Random student: 1,Sruthi Mora,99.0
     }
 }
 
@@ -39,7 +44,7 @@ class Student{
     }
 
     void greeting(){
-        System.out.println("Hi "+this.name);
+        System.out.println("Hi "+this.name);	// Hi followed by the student name
     }
 
     void changeName(String newName){

@@ -1,30 +1,30 @@
+// wrapper classes represent primitive values as immutable objects and support generics and utility methods
+// Java always passes arguments by value and object arguments copy the reference value
+// reassigning a method parameter never reassigns the caller's variable
+
 public class O02_WrapperClasses {
     public static void main(String[] args) {
         int a = 2, b = 3;
-        System.out.println("Before swapping integers: "+a+" "+b);
+        System.out.println("Before swapping integers: "+a+" "+b);	// Before swapping integers: 2 3
         swapInt(a,b);
-        System.out.println("After swapping integers: "+a+" "+b);
+        System.out.println("After swapping integers: "+a+" "+b);	// After swapping integers: 2 3
 
         Integer A = 22, B = 33;
-        System.out.println("After swapping Integers: "+A+" "+B);
+        System.out.println("Before swapping Integers: "+A+" "+B);	// Before swapping Integers: 22 33
         swapIntegers(A,B);
-        System.out.println("After swapping Integers: "+A+" "+B);
+        System.out.println("After swapping Integers: "+A+" "+B);	// After swapping Integers: 22 33
 
-        // primitives are passed by value
-        // objects are passed by reference
+        Integer parsed = Integer.valueOf("42");
+        System.out.println(parsed);	// 42
 
-        // still Integers are not swapped because wrapper classes are final classes
-        // with final we can prevent content to be modified
+        // autoboxing converts a primitive to a wrapper and unboxing converts it back
+        Integer boxed = 10;
+        int unboxed = boxed;
+        System.out.println(boxed + " " + unboxed);	// 10 10
 
-        // final int bonus = 3;
-        // bonus = 3  // can't redefine
-        // if objs are made final, obj reference can’t be changed but value can be changed
-
-        // garbage collection
-        GC obj = new GC();
-        for(int i=0;i<1000000;i++){
-            obj = new GC();
-        }
+        System.out.println(Integer.parseInt("21"));	// 21
+        System.out.println(Integer.toString(21));	// 21
+        System.out.println(Integer.compare(10, 20));	// -1
     }
     static void swapInt(int a, int b){
         int temp = a;
@@ -36,14 +36,5 @@ public class O02_WrapperClasses {
         Integer temp = a;
         a = b;
         b = temp;
-    }
-}
-
-class GC{
-    final int myVal = 23;
-
-    @Override
-    protected void finalize() throws Throwable{
-        System.out.println("Object is destroyed");
     }
 }
