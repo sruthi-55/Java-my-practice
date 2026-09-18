@@ -144,6 +144,7 @@ Temporary Items
 *.icloud
 
 ### Maven ###
+AGENTS.md
 target/
 pom.xml.tag
 pom.xml.releaseBackup
