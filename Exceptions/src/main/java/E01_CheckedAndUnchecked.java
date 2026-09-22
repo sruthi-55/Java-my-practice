@@ -5,18 +5,21 @@ import java.io.IOException;
 
 public class E01_CheckedAndUnchecked {
     public static void main(String[] args) {
+        // throws declares IOException and the caller handles the checked failure
         try {
             readConfiguration("");
         } catch (IOException exception) {
             System.out.println(exception.getMessage());	// Path cannot be blank
         }
 
+        // unchecked custom exceptions do not require a throws declaration
         try {
             withdraw(100, 200);
         } catch (InsufficientBalanceException exception) {
             System.out.println(exception.getMessage());	// Insufficient balance
         }
 
+        // a custom checked exception makes validation failure part of the method contract
         try {
             validateUser("");
         } catch (InvalidUserException exception) {

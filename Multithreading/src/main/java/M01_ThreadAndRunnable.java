@@ -15,6 +15,15 @@ public class M01_ThreadAndRunnable {
         runnableThread.start();
         extendedThread.join();
         runnableThread.join();
+
+        // a method reference supplies a Runnable task without a separate implementation class
+        Thread referenced = new Thread(M01_ThreadAndRunnable::printTask, "reference-worker");
+        referenced.start();
+        referenced.join();
+    }
+
+    static void printTask() {
+        System.out.println(Thread.currentThread().getName());	// reference-worker
     }
 }
 

@@ -13,6 +13,8 @@ public class M02_Synchronization {
         first.join();
         second.join();
         System.out.println(counter.value());	// 20000
+        counter.incrementTwice();
+        System.out.println(counter.value());	// 20002
     }
 }
 
@@ -25,5 +27,11 @@ class Counter {
 
     synchronized int value() {
         return value;
+    }
+
+    // intrinsic locks are reentrant so the owner can enter another method using the same monitor
+    synchronized void incrementTwice() {
+        increment();
+        increment();
     }
 }
