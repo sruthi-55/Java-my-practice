@@ -32,6 +32,16 @@ public class M11_ReadWriteAndStampedLock {
         System.out.println(point.lock.validate(optimistic));	// false
         System.out.println(point.sum());	// 11
 
+        // conversion can upgrade a sole read stamp without releasing it but zero means conversion failed
+        long stamp = point.lock.readLock();
+        try {
+            long writeStamp = point.lock.tryConvertToWriteLock(stamp);
+            System.out.println(writeStamp != 0);	// true
+            if (writeStamp != 0) stamp = writeStamp;
+        } finally {
+            point.lock.unlock(stamp);
+        }
+
         // another reader can enter while a read lock is held but a different writer cannot
         lock.readLock().lock();
         try {

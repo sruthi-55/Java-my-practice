@@ -2,7 +2,7 @@
 // inner class requires an outer instance while static nested class does not
 // Object is the root class and supplies methods such as toString, equals, hashCode and getClass
 
-public class O09_ConstructorsInnerClassesAndObject {
+public class O11_ConstructorsInnerClassesAndObject {
     public static void main(String[] args) {
         ConstructorTypes defaultValue = new ConstructorTypes();
         ConstructorTypes parameterized = new ConstructorTypes(10);
@@ -13,6 +13,20 @@ public class O09_ConstructorsInnerClassesAndObject {
         System.out.println(Outer.StaticInner.value());	// 2
         System.out.println(overload(1) + " " + overload("Java"));	// int String
         new ConstructorChild();
+        // local and anonymous classes may capture final or effectively final local values
+        int captured = 3;
+        class Local {
+            int value() { return captured; }
+        }
+        System.out.println(new Local().value());	// 3
+        Runnable anonymous = new Runnable() {
+            @Override
+            public void run() {
+                System.out.println(captured);	// 3
+            }
+        };
+        anonymous.run();
+        new Outer().showThis();
     }
 
     static String overload(int value) {
@@ -66,6 +80,19 @@ class ConstructorTypes {
 }
 
 class Outer {
+    // anonymous classes introduce their own this while lambdas retain the enclosing this
+    void showThis() {
+        Runnable lambda = () -> System.out.println(this instanceof Outer);	// true
+        Runnable anonymous = new Runnable() {
+            @Override
+            public void run() {
+                System.out.println(this instanceof Runnable);	// true
+                System.out.println(Outer.this instanceof Outer);	// true
+            }
+        };
+        lambda.run();
+        anonymous.run();
+    }
     class Inner {
         int value() {
             return 1;

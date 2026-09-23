@@ -45,6 +45,20 @@ public class C10_CollectionsUtilityMethods {
         words.sort(Comparator.comparingInt(String::length).thenComparing(Comparator.naturalOrder()));
 
         System.out.println("comparator chain: " + words);	// comparator chain: [a, cc, bbb]
+
+        // a failed binary search returns -(insertion point)-1 rather than always returning -1
+        System.out.println(Collections.binarySearch(List.of(10, 20, 30), 25));	// -3
+
+        // nCopies repeats references rather than cloning the supplied object
+        list.get(0).append("!");
+        System.out.println(list);	// [Hi!, Hi!, Hi!]
+
+        // capacity alone does not create destination elements for Collections.copy
+        try {
+            Collections.copy(new ArrayList<Integer>(3), source);
+        } catch (IndexOutOfBoundsException exception) {
+            System.out.println(exception.getClass().getSimpleName());	// IndexOutOfBoundsException
+        }
     }
 
     // binarySearch requires the list to be sorted using an order compatible with the search

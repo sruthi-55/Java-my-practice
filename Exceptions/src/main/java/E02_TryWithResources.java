@@ -11,9 +11,15 @@ import java.nio.file.Path;
 // try-with-resources automatically closes resources implementing AutoCloseable
 // resources close in reverse declaration order even when the try block throws
 // AutoCloseable.close may throw Exception; Closeable.close declares IOException and must tolerate repeated closure
+// resource declarations must be final or effectively final and a null resource is skipped during closure
 
 public class E02_TryWithResources {
     public static void main(String[] args) throws IOException {
+        // a null resource does not cause an automatic close call or a NullPointerException
+        BufferedReader absent = null;
+        try (absent) {
+            System.out.println("no resource to close");	// no resource to close
+        }
         fileFailures();
         closeContracts();
         try {

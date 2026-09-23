@@ -3,7 +3,7 @@
 // overriding selects an instance method from the runtime object type
 // field access and static method hiding use the compile-time reference type
 
-public class O02_InheritanceAndPolymorphism {
+public class O04_InheritanceAndPolymorphism {
     public static void main(String[] args) {
         Payment payment = new CardPayment();
         payment.pay(500);
@@ -13,6 +13,16 @@ public class O02_InheritanceAndPolymorphism {
         System.out.println(new CreditCardPayment() instanceof Payment);	// true
         System.out.println(new CashPayment() instanceof Payment);	// true
         System.out.println(new MultiChannelPayment() instanceof AuditedPayment);	// true
+        // upcasting is implicit while a checked downcast exposes subtype-specific behavior
+        if (payment instanceof CardPayment card) {
+            System.out.println(card.label);	// Card payment
+        }
+        try {
+            CardPayment invalid = (CardPayment) new Payment();
+        } catch (ClassCastException exception) {
+            System.out.println("invalid downcast");	// invalid downcast
+        }
+        System.out.println(null instanceof Payment);	// false
     }
 }
 

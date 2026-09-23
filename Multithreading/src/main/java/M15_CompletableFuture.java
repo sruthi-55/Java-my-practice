@@ -52,6 +52,22 @@ public class M15_CompletableFuture {
         System.out.println(new CompletableFuture<Integer>().completeOnTimeout(5, 1, TimeUnit.MILLISECONDS).join());	// 5
         System.out.println(new CompletableFuture<Integer>().cancel(true));	// true
         System.out.println(CompletableFuture.supplyAsync(() -> 9).join());	// 9
+
+        // explicit completion wins once and later attempts cannot replace the published result
+        CompletableFuture<Integer> manual = new CompletableFuture<>();
+        System.out.println(manual.complete(42));	// true
+        System.out.println(manual.complete(99));	// false
+        System.out.println(manual.join());	// 42
+
+        // anyOf means first completion rather than first success and does not cancel unfinished peers
+        CompletableFuture<Integer> pending = new CompletableFuture<>();
+        try {
+            CompletableFuture.anyOf(failed, pending).join();
+        } catch (CompletionException exception) {
+            System.out.println(exception.getCause().getMessage());	// bad input
+        }
+        System.out.println(pending.isDone());	// false
+        pending.cancel(false);
     }
 
     // non-Async stages may run on a completing or calling thread while Async stages use an executor

@@ -2,7 +2,7 @@
 // static block runs once when the class is initialized
 // singleton restricts construction so one shared instance is exposed
 
-public class O01_StaticAndSingleton {
+public class O03_StaticAndSingleton {
     public static void main(String[] args) {
         System.out.println("Objects created: " + Employee.getCount());	// Objects created: 0
         Employee first = new Employee("Sruthi");

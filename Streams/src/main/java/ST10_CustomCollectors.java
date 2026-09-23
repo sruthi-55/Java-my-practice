@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 // a collector defines a supplier, accumulator, combiner, finisher and characteristics
 // each parallel partition receives its own mutable container unless concurrent accumulation is explicitly supported
@@ -23,6 +24,11 @@ public class ST10_CustomCollectors {
                 ArrayList::new, ArrayList::add, (left, right) -> { left.addAll(right); return left; });
         System.out.println(lists.characteristics().contains(Collector.Characteristics.IDENTITY_FINISH));	// true
         System.out.println(values.parallelStream().collect(lists));	// [1, 2, 3]
+
+        // concurrent collectors advertise shared accumulation and unordered results explicitly
+        var concurrent = Collectors.toConcurrentMap(String::length, word -> 1, Integer::sum);
+        System.out.println(concurrent.characteristics().contains(Collector.Characteristics.CONCURRENT));	// true
+        System.out.println(concurrent.characteristics().contains(Collector.Characteristics.UNORDERED));	// true
     }
 
     // IDENTITY_FINISH means accumulator and result are the same without a transforming finisher

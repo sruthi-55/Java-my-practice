@@ -68,12 +68,12 @@ public class C05_CollectionImplementations {
         Map<String, Integer> synchronizedMap = Collections.synchronizedMap(linkedMap);
 
         System.out.println(linkedList + " " + vector + " " + linkedSet + " " + enumSet + " " + copySet);	// each implementation's elements; set order may vary
-        System.out.println(treeSet.lower("B") + " " + treeSet.floor("B") + " " + treeSet.ceiling("A") + " " + treeSet.higher("A"));	// a B A B
-        System.out.println(priorityQueue.poll() + " " + treeMap + enumMap + weakMap + identityMap + concurrentMap + synchronizedMap);	// a followed by empty maps
+        System.out.println(treeSet.lower("B") + " " + treeSet.floor("B") + " " + treeSet.ceiling("A") + " " + treeSet.higher("A"));	// A B A B
+        System.out.println(priorityQueue.poll() + " " + treeMap + enumMap + weakMap + identityMap + concurrentMap + synchronizedMap);	// A {}{}{}{}{}{}
     }
 
     // list implementations
-    // list keeps insertion order, allows duplicates and nulls, and provides index-based access
+    // List preserves positional order and duplicates while null support depends on its implementation
     // ArrayList provides fast indexed reads; LinkedList is useful for deque operations but has slow indexed access
     // Vector is a legacy synchronized list; prefer ArrayList unless an old API specifically requires Vector
 
@@ -93,4 +93,10 @@ public class C05_CollectionImplementations {
     // IdentityHashMap compares keys with == instead of equals() and should be used only for identity-based logic
     // ConcurrentHashMap supports scalable concurrent access; synchronizedMap serializes access through one wrapper lock
     // ConcurrentHashMap rejects null keys and values, while HashMap permits one null key and multiple null values
+
+    // ArrayList indexed access is O(1), append is amortized O(1) and middle insertion or removal is O(n)
+    // LinkedList indexed access is O(n) while end operations or edits at an existing iterator are O(1)
+    // HashSet membership is expected O(1) while TreeSet and TreeMap operations are O(log n)
+    // ArrayDeque end operations are amortized O(1) while PriorityQueue offer and poll are O(log n)
+    // PriorityQueue peek is O(1) but contains and remove(Object) are O(n)
 }

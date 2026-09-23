@@ -5,6 +5,9 @@ import java.util.NavigableSet;
 import java.util.Set;
 import java.util.TreeSet;
 
+// hash sets identify duplicates through equals and hashCode while sorted sets use comparison zero
+// Set.of rejects nulls and duplicate arguments while Set.copyOf collapses duplicates from its source
+
 public class C08_SetMethods {
     public static void main(String[] args) {
         Set<Integer> numbers = new HashSet<>();
@@ -44,6 +47,21 @@ public class C08_SetMethods {
         System.out.println("subSet: " + sorted.subSet(20, true, 50, false));	// subSet: [20, 30, 40]
         System.out.println("descendingSet: " + sorted.descendingSet());	// descendingSet: [50, 40, 30, 20, 10]
         System.out.println("pollFirst/pollLast: " + sorted.pollFirst() + "/" + sorted.pollLast());	// pollFirst/pollLast: 10/50
+
+        // factory duplicate rejection differs from normal Set.add returning false
+        try {
+            Set.of("Java", "Java");
+        } catch (IllegalArgumentException exception) {
+            System.out.println(exception.getClass().getSimpleName());	// IllegalArgumentException
+        }
+        System.out.println(Set.copyOf(List.of("Java", "Java")).size());	// 1
+
+        // Java 21 sequenced sets can reposition existing elements without adding duplicates
+        LinkedHashSet<String> sequenced = new LinkedHashSet<>(List.of("Java", "SQL", "Git"));
+        sequenced.addFirst("Git");
+        System.out.println(sequenced);	// [Git, Java, SQL]
+        System.out.println(sequenced.reversed());	// [SQL, Java, Git]
+        // sorted sets reject addFirst and addLast because the comparator determines their positions
     }
 
     // Set.add returns false for an equal duplicate because sets contain no duplicate elements

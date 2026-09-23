@@ -32,6 +32,15 @@ public class E10_CompletableFutureExceptions {
         });
         System.out.println(observed.isCompletedExceptionally());	// true
         System.out.println(failed.isCompletedExceptionally());	// true
+
+        // an observer that throws can turn a successful completion into a failed dependent stage
+        try {
+            CompletableFuture.completedFuture(21).whenComplete((value, exception) -> {
+                throw new IllegalStateException("observer failed");
+            }).join();
+        } catch (CompletionException exception) {
+            System.out.println(exception.getCause().getMessage());	// observer failed
+        }
     }
 
     // recovery creates a new stage and does not change the failed original future

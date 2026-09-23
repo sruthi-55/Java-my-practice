@@ -1,8 +1,8 @@
-// StringBuffer is a mutable synchronized character sequence suited to shared multi-threaded mutation
+// StringBuffer is a mutable character sequence with synchronized operations for shared mutation
 // default capacity is 16 and a String argument creates capacity equal to length plus 16
 
 public class S03_StringBufferMethods {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         StringBuffer buffer = new StringBuffer("Hello");
         System.out.println(buffer.capacity());	// 21
 
@@ -29,6 +29,23 @@ public class S03_StringBufferMethods {
         System.out.println(growing.capacity());	// 34
         growing.trimToSize();
         System.out.println(growing.capacity());	// 17
+
+        // individually synchronized calls do not make a check-then-act sequence atomic
+        StringBuffer shared = new StringBuffer();
+        Runnable appendOnce = () -> {
+            synchronized (shared) {
+                if (shared.isEmpty()) {
+                    shared.append("Java");
+                }
+            }
+        };
+        Thread first = new Thread(appendOnce);
+        Thread second = new Thread(appendOnce);
+        first.start();
+        second.start();
+        first.join();
+        second.join();
+        System.out.println(shared);	// Java
     }
 
     // capacity grows when required and is normally calculated as old capacity times two plus two

@@ -4,8 +4,7 @@ public class HelloWorld {
     }
 }
 
-// since java 24+
-// installed 21 currently as it is LTS (long-term supported)
+// this instance method is ordinary Java 21 code and is not a standard Java 21 launcher entry point
 class Hello{
     void main(){
         System.out.println("Hello World!");	// Hello World!

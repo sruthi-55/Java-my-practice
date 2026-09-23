@@ -54,7 +54,28 @@ public class C11_QueueMethods {
         System.out.println(blockingQueue.take());	// task. removes and returns ele
         // waits if queue is empty
 
-        System.out.println(blockingQueue.remainingCapacity());   // 1
+        System.out.println(blockingQueue.remainingCapacity());	// 1
+
+        // bounded offer reports capacity failure while add throws for the same full queue
+        blockingQueue.add("full");
+        System.out.println(blockingQueue.offer("extra"));	// false
+        try {
+            blockingQueue.add("extra");
+        } catch (IllegalStateException exception) {
+            System.out.println(exception.getClass().getSimpleName());	// IllegalStateException
+        }
+
+        // removing from an empty queue throws while the earlier poll returned null
+        try {
+            queue.remove();
+        } catch (java.util.NoSuchElementException exception) {
+            System.out.println(exception.getClass().getSimpleName());	// NoSuchElementException
+        }
+
+        // repeated priority-queue polling is ordered but ordinary iteration is not sorted
+        java.util.List<Integer> ordered = new java.util.ArrayList<>();
+        while (!minHeap.isEmpty()) ordered.add(minHeap.poll());
+        System.out.println(ordered);	// [20, 30]
     }
 
     // add and remove throw on failure while offer and poll return false or null

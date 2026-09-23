@@ -43,6 +43,16 @@ public class ST13_ResourcesAndTraversal {
         remainder.forEachRemaining(traversed::add);
         System.out.println(traversed);	// [1, 2, 3, 4]
         System.out.println(StreamSupport.stream(List.of(1, 2).spliterator(), false).toList());	// [1, 2]
+
+        // close handlers all run and later failures are suppressed on the first handler failure
+        try (Stream<Integer> failing = Stream.of(1)
+                .onClose(() -> { throw new IllegalStateException("first close"); })
+                .onClose(() -> { throw new IllegalArgumentException("second close"); })) {
+            System.out.println(failing.count());	// 1
+        } catch (IllegalStateException exception) {
+            System.out.println(exception.getMessage());	// first close
+            System.out.println(exception.getSuppressed()[0].getMessage());	// second close
+        }
     }
 
     // onClose handlers run in registration order and the first failure retains later failures as suppressed

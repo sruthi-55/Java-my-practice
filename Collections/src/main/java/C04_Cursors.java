@@ -104,7 +104,7 @@ public class C04_Cursors {
         }
         // ArrayList maintains a modification counter called modCount
         // iterator remember the value of expectedModCount
-        // when list is updated once, modCount = 1 but expectedModCount = 0 (doesn't match with mod count)
+        // a structural update advances modCount beyond the iterator's captured expectedModCount
         // before returning ele, iterator checks if modCount and expectedModCount are equal
         // if not equal throws exception as above
     }
@@ -116,4 +116,7 @@ public class C04_Cursors {
     // structural modification outside the iterator can cause ConcurrentModificationException on a fail-fast iterator
     // fail-fast collections track structural changes with modCount and iterators compare it with expectedModCount
     // ConcurrentModificationException is best-effort bug detection and must not be used for program correctness
+    // ArrayList.set changes an element without changing structure while add and remove change structure
+    // ListIterator.add invalidates remove and set until next or previous selects another element
+    // snapshot and weakly consistent iterators are demonstrated in Multithreading/M16_ConcurrentCollections
 }

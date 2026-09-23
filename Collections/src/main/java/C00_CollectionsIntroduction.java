@@ -11,6 +11,9 @@ import java.util.Map;
 // Map is a key-value interface in the framework, but it does not extend the Collection interface
 // Iterable is the parent of Collection and provides iterator(), which enables the enhanced for loop
 // generics specify the allowed element type and provide compile-time type safety
+// Java 21 SequencedCollection adds encounter-order end operations and reversed views to List and Deque
+// SequencedSet extends Set and SequencedCollection while SequencedMap extends Map separately
+// insertion order, sorted order and unspecified order are different contracts
 
 public class C00_CollectionsIntroduction {
     public static void main(String[] args) {

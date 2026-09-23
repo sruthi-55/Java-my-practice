@@ -1,7 +1,7 @@
 // Java always passes a copy of the argument value including a copied object reference
 // mutation through the copied reference is visible while parameter reassignment is not
 
-public class O05_PassByValue {
+public class O07_PassByValue {
     public static void main(String[] args) {
         MutableName name = new MutableName("Sruthi");
         mutate(name);

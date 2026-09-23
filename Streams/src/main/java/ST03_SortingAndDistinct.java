@@ -18,6 +18,9 @@ public class ST03_SortingAndDistinct {
 
         // record equality includes every component so equal records collapse under distinct
         System.out.println(Stream.of(new Skill("Java"), new Skill("Java"), new Skill("SQL")).distinct().toList());	// [Skill[name=Java], Skill[name=SQL]]
+
+        // stable sorting retains ties in encounter order and distinct still uses equals rather than the comparator
+        System.out.println(Stream.of("bb", "aa", "bb").sorted(Comparator.comparingInt(String::length)).distinct().toList());	// [bb, aa]
     }
 
     record Skill(String name) { }

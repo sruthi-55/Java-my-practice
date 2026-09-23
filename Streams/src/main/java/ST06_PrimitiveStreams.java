@@ -28,6 +28,10 @@ public class ST06_PrimitiveStreams {
         // chars emits UTF-16 code units while codePoints respects supplementary Unicode characters
         System.out.println("A😀".chars().count());	// 3
         System.out.println("A😀".codePoints().count());	// 2
+
+        // widen elements before summation because widening an already-overflowed result cannot repair it
+        System.out.println(IntStream.of(Integer.MAX_VALUE, 1).sum());	// -2147483648
+        System.out.println(IntStream.of(Integer.MAX_VALUE, 1).asLongStream().sum());	// 2147483648
     }
 
     // min and max return OptionalInt, OptionalLong or OptionalDouble and average returns OptionalDouble

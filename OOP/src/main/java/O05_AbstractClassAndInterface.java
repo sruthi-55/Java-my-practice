@@ -1,8 +1,11 @@
 // abstract class can contain state, constructors, abstract methods and concrete methods
 // interface defines a contract and supports abstract, default, static and private methods
 // class extends one class but can implement multiple interfaces
+// abstract classes cannot be instantiated but may have constructors, fields and no abstract methods at all
+// interfaces have no constructors or per-instance fields and their fields are public static final
+// an abstract method has no body and cannot be private, static or final
 
-public class O03_AbstractClassAndInterface {
+public class O05_AbstractClassAndInterface {
     public static void main(String[] args) {
         EmailNotification notification = new EmailNotification("user@example.com");
         notification.send("Interview at 10 AM");

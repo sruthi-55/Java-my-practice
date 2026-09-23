@@ -21,6 +21,12 @@ public class ST02_FilterAndMap {
         System.out.println(Stream.of("Java SQL", "Git").flatMap(line -> Stream.of(line.split(" "))).toList());	// [Java, SQL, Git]
         System.out.println(words.stream().mapToInt(String::length).sum());	// 13
         System.out.println(groups.stream().flatMapToInt(group -> group.stream().mapToInt(Integer::intValue)).sum());	// 6
+
+        // flatMap treats a null mapped stream as empty and closes each non-null mapped stream
+        int[] closed = {0};
+        System.out.println(Stream.of("Java", "skip").flatMap(word -> word.equals("skip") ? null
+                : Stream.of(word).onClose(() -> closed[0]++)).toList());	// [Java]
+        System.out.println(closed[0]);	// 1
     }
 
     // flatMap closes each mapped stream after consuming it and treats a null mapped stream as empty

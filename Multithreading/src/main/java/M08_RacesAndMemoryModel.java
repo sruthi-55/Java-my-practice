@@ -3,6 +3,9 @@ import java.util.concurrent.CountDownLatch;
 // a race condition makes correctness depend on timing and may exist even with individually atomic operations
 // a data race has conflicting accesses without a happens-before order and at least one write
 // atomicity prevents partial operations, visibility exposes writes and ordering constrains observable execution
+// happens-before is a visibility and ordering guarantee rather than a claim about wall-clock execution order
+// actions before task submission happen-before task actions and task actions happen-before successful Future.get
+// queue handoff and latch countdown-to-await completion also publish prior writes
 
 public class M08_RacesAndMemoryModel {
     public static void main(String[] args) throws InterruptedException {

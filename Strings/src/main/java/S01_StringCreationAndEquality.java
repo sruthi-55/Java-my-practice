@@ -24,9 +24,28 @@ public class S01_StringCreationAndEquality {
         String unchanged = literalOne.concat(" 21");
         System.out.println(literalOne);	// Java
         System.out.println(unchanged);	// Java 21
+
+        // compile-time constant expressions are pooled while runtime concatenation creates a new result
+        final String constant = "Ja";
+        String variable = "Ja";
+        System.out.println("Ja" + "va" == literalOne);	// true
+        System.out.println(constant + "va" == literalOne);	// true
+        System.out.println(variable + "va" == literalOne);	// false
+        final String runtimeFinal = new String("Ja");
+        System.out.println(runtimeFinal + "va" == literalOne);	// false
+
+        // intern returns the canonical reference without changing the receiver's identity
+        String canonical = heapString.intern();
+        System.out.println(heapString == canonical);	// false
+        System.out.println(canonical == literalOne);	// true
+
+        // unchanged content may reuse the original object so methods do not always allocate
+        System.out.println(literalOne.concat("") == literalOne);	// true
     }
 
-    // immutability means each apparent modification returns a new String instead of changing the original
+    // immutability means methods never modify the receiver and may return it when no change is needed
+    // new String("Java") creates one explicit object but literal creation depends on whether it is already pooled
+    // avoid interning unbounded external input because canonicalization can add memory and processing costs
     // immutable values are safe to share but compound operations still require synchronization when shared state changes
     // reference variables may live in stack frames or inside heap objects depending on where they are declared
 }

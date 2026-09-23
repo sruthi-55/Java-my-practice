@@ -8,6 +8,13 @@ public class O00_OOPIntroduction {
         account.deposit(50);
         System.out.println(account.owner());	// Sruthi
         System.out.println(account.balance());	// 150
+        // encapsulation protects the invariant rather than merely providing getters and setters
+        try {
+            account.deposit(-10);
+        } catch (IllegalArgumentException exception) {
+            System.out.println(exception.getMessage());	// amount must be positive
+        }
+        System.out.println(account.balance());	// 150
     }
 }
 
@@ -16,12 +23,15 @@ class Account {
     private int balance;
 
     Account(String owner, int balance) {
+        if (owner == null || owner.isBlank()) throw new IllegalArgumentException("owner required");
+        if (balance < 0) throw new IllegalArgumentException("balance cannot be negative");
         this.owner = owner;
         this.balance = balance;
     }
 
     void deposit(int amount) {
-        if (amount > 0) balance += amount;
+        if (amount <= 0) throw new IllegalArgumentException("amount must be positive");
+        balance = Math.addExact(balance, amount);
     }
 
     String owner() {

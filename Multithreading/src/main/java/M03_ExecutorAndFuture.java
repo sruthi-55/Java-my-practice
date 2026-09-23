@@ -18,6 +18,10 @@ public class M03_ExecutorAndFuture {
             Future<Integer> result = executor.submit(task);
             System.out.println(result.get());	// 42
             System.out.println(result.isDone());	// true
+
+            // Java 21 nonblocking inspection succeeds only after the corresponding terminal state is reached
+            System.out.println(result.state());	// SUCCESS
+            System.out.println(result.resultNow());	// 42
             System.out.println(executor.submit(() -> { }).get());	// null
 
             // invokeAll returns futures in submission order and invokeAny returns one successful result

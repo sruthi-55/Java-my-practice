@@ -7,6 +7,7 @@ import java.util.Optional;
 // Objects.requireNonNull rejects an unexpected null with NullPointerException
 // Optional explicitly represents a return value that may be present or absent
 // overriding method may narrow checked exceptions and widen access but cannot do the reverse
+// Optional.map turns a null result into empty while flatMap requires a non-null Optional result
 
 public class E04_NullOptionalAndOverriding {
     public static void main(String[] args) {
@@ -27,6 +28,16 @@ public class E04_NullOptionalAndOverriding {
         System.out.println(Optional.empty().isEmpty());	// true
         System.out.println(skill.filter(value -> value.length() > 3).map(String::length).orElse(0));	// 4
         System.out.println(skill.flatMap(value -> Optional.of(value.toUpperCase())).orElse("none"));	// JAVA
+
+        // map treats a missing mapped value as absence while flatMap rejects a broken Optional contract
+        System.out.println(skill.map(value -> (String) null).isEmpty());	// true
+        try {
+            skill.flatMap(value -> null);
+        } catch (NullPointerException exception) {
+            System.out.println(exception.getClass().getSimpleName());	// NullPointerException
+        }
+        System.out.println(nickname.or(() -> Optional.of("fallback")).orElseThrow());	// fallback
+        nickname.ifPresentOrElse(value -> { }, () -> System.out.println("absent"));	// absent
 
         // orElse evaluates its argument eagerly even when a value exists
         System.out.println(skill.orElse(fallback()));	// Java

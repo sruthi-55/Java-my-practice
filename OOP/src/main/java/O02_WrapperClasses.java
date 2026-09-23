@@ -25,6 +25,17 @@ public class O02_WrapperClasses {
         System.out.println(Integer.parseInt("21"));	// 21
         System.out.println(Integer.toString(21));	// 21
         System.out.println(Integer.compare(10, 20));	// -1
+        // cached boxing can make identity look like value equality so compare wrappers with equals
+        Integer cachedOne = 127;
+        Integer cachedTwo = 127;
+        System.out.println(cachedOne == cachedTwo);	// true
+        System.out.println(Integer.valueOf(1000).equals(Integer.valueOf(1000)));	// true
+        try {
+            Integer missing = null;
+            int primitive = missing;
+        } catch (NullPointerException exception) {
+            System.out.println("null unboxing");	// null unboxing
+        }
     }
     static void swapInt(int a, int b){
         int temp = a;

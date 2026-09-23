@@ -1,5 +1,10 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
+import java.util.Collections;
+
+// List preserves positional order and duplicates while mutability and null rules depend on the implementation
+// a backed view shares storage while a snapshot copies the current element references
 
 public class C07_ListMethods {
     public static void main(String[] args) {
@@ -42,6 +47,52 @@ public class C07_ListMethods {
         retained.clear();
 
         System.out.println("clear then empty: " + retained.isEmpty());	// clear then empty: true
+        viewsAndFactories();
+    }
+
+    static void viewsAndFactories() {
+        // remove(int) selects an index while remove(Integer) selects a matching value
+        List<Integer> numbers = new ArrayList<>(List.of(1, 2, 1));
+        System.out.println(numbers.remove(1));	// 2
+        System.out.println(numbers.remove(Integer.valueOf(1)));	// true
+        System.out.println(numbers);	// [1]
+
+        // Arrays.asList is fixed-size and backed by its array but permits replacing elements
+        String[] array = {"Java", "SQL"};
+        List<String> fixed = Arrays.asList(array);
+        fixed.set(0, "Git");
+        System.out.println(array[0]);	// Git
+        try {
+            fixed.add("Java");
+        } catch (UnsupportedOperationException exception) {
+            System.out.println(exception.getClass().getSimpleName());	// UnsupportedOperationException
+        }
+
+        // unmodifiable wrappers reflect source changes while copyOf takes an unmodifiable snapshot
+        List<String> source = new ArrayList<>(List.of("Java", "SQL"));
+        List<String> view = Collections.unmodifiableList(source);
+        List<String> snapshot = List.copyOf(source);
+        source.subList(0, 1).clear();
+        System.out.println(view);	// [SQL]
+        System.out.println(snapshot);	// [Java, SQL]
+        try {
+            List.of("Java", null);
+        } catch (NullPointerException exception) {
+            System.out.println(exception.getClass().getSimpleName());	// NullPointerException
+        }
+
+        // Java 21 reversed returns a backed view whose first end is the original last end
+        source.addFirst("Git");
+        source.addLast("Java");
+        System.out.println(source.getFirst() + " " + source.getLast());	// Git Java
+        source.reversed().removeFirst();
+        System.out.println(source);	// [Git, SQL]
+
+        // unmodifiable containers still share their mutable element references
+        StringBuilder element = new StringBuilder("Java");
+        List<StringBuilder> shallow = List.copyOf(List.of(element));
+        element.append(" 21");
+        System.out.println(shallow);	// [Java 21]
     }
 
     static void print(String label, List<String> values) {

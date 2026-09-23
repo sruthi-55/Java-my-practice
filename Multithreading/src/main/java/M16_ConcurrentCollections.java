@@ -37,6 +37,15 @@ public class M16_ConcurrentCollections {
         snapshot.forEachRemaining(System.out::println);	// Java
         System.out.println(words);	// [Java, SQL]
 
+        // snapshot iterators cannot remove elements from the live copy-on-write list
+        Iterator<String> readOnly = words.iterator();
+        readOnly.next();
+        try {
+            readOnly.remove();
+        } catch (UnsupportedOperationException exception) {
+            System.out.println(exception.getClass().getSimpleName());	// UnsupportedOperationException
+        }
+
         // compound operations and traversal use the synchronized wrapper itself as the monitor
         List<String> wrapped = Collections.synchronizedList(new ArrayList<>());
         synchronized (wrapped) {

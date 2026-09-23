@@ -1,9 +1,12 @@
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.LockSupport;
 
 // ReentrantLock supports explicit acquisition, timed attempts and interruptible waiting
 // Condition supplies a separate wait queue associated with a lock
+// LockSupport parks a thread using a permit without requiring ownership of an object monitor
+// AQS is a synchronizer-building framework used by locks and coordination classes rather than an application lock API
 
 public class M10_LockAndCondition {
     public static void main(String[] args) throws InterruptedException {
@@ -63,6 +66,20 @@ public class M10_LockAndCondition {
         producer.start();
         System.out.println(slot.take());	// 42
         producer.join();
+        parkingRules();
+    }
+
+    static void parkingRules() {
+        // unpark can supply one permit before park but permits never accumulate beyond one
+        LockSupport.unpark(Thread.currentThread());
+        LockSupport.parkNanos(1_000_000);
+        System.out.println(Thread.currentThread().isInterrupted());	// false
+
+        // park returns on interruption without throwing or clearing the interrupt flag
+        Thread.currentThread().interrupt();
+        LockSupport.park();
+        System.out.println(Thread.currentThread().isInterrupted());	// true
+        Thread.interrupted();
     }
 
     static class Slot {
@@ -99,4 +116,6 @@ public class M10_LockAndCondition {
     // await releases and reacquires its lock and conditions must be tested in loops
     // fair locks may reduce starvation at a throughput cost and untimed tryLock may barge
     // synchronized is simpler when timed, interruptible or multiple-condition acquisition is unnecessary
+    // park may return spuriously so real coordination must loop around a safely published condition
+    // synchronized monitor acquisition is not interruptible while lockInterruptibly explicitly supports cancellation
 }
